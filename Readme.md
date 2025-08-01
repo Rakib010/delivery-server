@@ -57,6 +57,6 @@ A secure, modular, and role-based backend API for a parcel delivery system inspi
 #### 📦 Live Link
 
 ```bash
-🔗 GitHub Repository 
-🌍 Live Deployment Link 
+🔗 GitHub Repository ->https://github.com/Rakib010/delivery-server.git
+🌍 Live Deployment Link -> https://delivery-server-three.vercel.app 
 ```
