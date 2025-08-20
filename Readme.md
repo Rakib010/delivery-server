@@ -25,39 +25,9 @@ A secure, modular, and role-based backend API for a parcel delivery system inspi
 
 ---
 
-#### 📡 All API Endpoints
-
-##### 🔐 Authentication
-- `POST /api/v1/user/register` — Register as sender or receiver
-- `POST /api/v1/auth/login` — Login to receive JWT token
-
-##### 📤 Sender APIs
-- `POST /api/v1/parcel/create` — Create a new parcel delivery request
-- `GET /api/v1/parcel/me` — View all parcels created by sender
-- `PATCH /api/v1/parcel/cancel/:id` — Cancel a parcel (if not dispatched)
-
-##### 📥 Receiver APIs
-- `GET /api/v1/parcel/incoming-parcels` — View parcels assigned to receiver
-- `PATCH /api/v1/parcel/confirm-delivery/:id` — Confirm delivery of parcel
-- `GET /api/v1/parcel/delivery-history` — View past delivered/received parcels
-
-#### 🛠 Admin APIs
-- `GET /api/v1/user/all-parcels` — View all parcels in system
-- `GET /api/v1/user/all-users` — View all users in system
-- `PATCH /api/v1/user/update-parcel-status/:id` — Update parcel delivery status
-- `PATCH api/v1/user/block/:id` — Block  a user
-- `PATCH api/v1/user/unblock/:id` — Unblock a user
-
-#### 📦 Parcel Status & Tracking
-- `GET /api/parcels/:id` — Get full details and tracking history of a parcel
-- `GET /api/parcels/track/:trackingId` — Track parcel by public tracking ID
-
----
-
 #### 📦 Live Link
 
 ```bash
 🔗 GitHub Repository ->https://github.com/Rakib010/delivery-server.git
 🌍 Live Deployment Link -> https://delivery-server-three.vercel.app 
-📤 Postman collection link -> https://web.postman.co/workspace/My-Workspace~4a9e1019-51e4-491a-8174-20352cddd277/collection/40151282-94541cf6-bbd3-4253-b8f1-4c228def8c35?action=share&source=copy-link&creator=40151282
 ```
