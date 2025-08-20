@@ -1,5 +1,5 @@
 
-### 📦 Parcel Delivery System Backend API
+### 📦 Parcel Delivery server
 A secure, modular, and role-based backend API for a parcel delivery system inspired by services like Pathao Courier and Sundarban. Built using **Express.js** and **Mongoose**, this system supports robust **authentication**, **role-based authorization**, and **parcel tracking** with status history.
 
 ---
@@ -28,6 +28,5 @@ A secure, modular, and role-based backend API for a parcel delivery system inspi
 #### 📦 Live Link
 
 ```bash
-🔗 GitHub Repository ->https://github.com/Rakib010/delivery-server.git
 🌍 Live Deployment Link -> https://delivery-server-three.vercel.app 
 ```
