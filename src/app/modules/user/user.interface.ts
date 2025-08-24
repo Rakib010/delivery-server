@@ -5,7 +5,6 @@ export enum Role {
     RECEIVER = "RECEIVER"
 }
 export interface IUser {
-    _id: string
     name: string;
     email: string;
     password: string;

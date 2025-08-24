@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { userServices } from "./user.service";
-
+import { JwtPayload } from "jsonwebtoken";
 
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
 
     const user = await userServices.createUser(req.body)
+
 
     sendResponse(res, {
         success: true,
@@ -16,6 +17,31 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
         data: user
     })
 })
+
+const getUser = catchAsync(async (req: Request, res: Response) => {
+    const decodedToken = req.user as JwtPayload
+    //console.log("DToken", decodedToken)
+
+    const user = await userServices.getUser(decodedToken.userId)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 201,
+        message: "User get Successfully",
+        data: user
+    })
+})
+
+const getReceiver = catchAsync(async (req: Request, res: Response) => {
+    const user = await userServices.getReceiver()
+    sendResponse(res, {
+        success: true,
+        statusCode: 201,
+        message: "User get Successfully",
+        data: user
+    })
+})
+
 
 const trackingById = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params
@@ -56,28 +82,6 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
-const blockUser = catchAsync(async (req: Request, res: Response) => {
-    const id = req.params.id
-    const users = await userServices.blockUser(id, true);
-    sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: 'user blocked Successfully',
-        data: users,
-    });
-})
-
-const unblockUser = catchAsync(async (req: Request, res: Response) => {
-    const id = req.params.id
-    const users = await userServices.blockUser(id, false);
-    sendResponse(res, {
-        statusCode: 200,
-        success: true,
-        message: 'user unblocked Successfully',
-        data: users,
-    });
-})
-
 const updateParcelStatus = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id
     const decodedToken = req.user?.userId
@@ -88,6 +92,17 @@ const updateParcelStatus = catchAsync(async (req: Request, res: Response) => {
         statusCode: 200,
         success: true,
         message: 'parcel update Status Successfully',
+        data: users,
+    });
+})
+
+const toggleUserBlock = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id
+    const users = await userServices.toggleUserBlock(id);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "",
         data: users,
     });
 })
@@ -109,11 +124,34 @@ const toggleParcelBlock = catchAsync(async (req: Request, res: Response) => {
 
 export const userController = {
     createUser,
+    getUser,
+    getReceiver,
     trackingById,
     getAllParcels,
     getAllUsers,
-    blockUser,
-    unblockUser,
     updateParcelStatus,
+    toggleUserBlock,
     toggleParcelBlock
 }
+
+/* const blockUser = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id
+    const users = await userServices.blockUser(id, true);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'user blocked Successfully',
+        data: users,
+    });
+})
+
+const unblockUser = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id
+    const users = await userServices.blockUser(id, false);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'user unblocked Successfully',
+        data: users,
+    });
+}) */

@@ -56,6 +56,7 @@ const cancelParcel = async (id: string, senderId: Types.ObjectId) => {
 
 const getMyParcels = async (senderId: string) => {
     const parcels = await Parcel.find({ sender: senderId })
+        .populate("receiver", "name email phone");
     return parcels
 }
 

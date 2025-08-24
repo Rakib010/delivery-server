@@ -10,7 +10,9 @@ export const checkAuth = (...authRoles: string[]) =>
     async (req: Request, res: Response, next: NextFunction) => {
 
         try {
-            const accessToken = req.headers.authorization;
+            const accessToken = req.headers.authorization || req.cookies.accessToken;
+
+            //console.log("accessToken", accessToken)
 
             if (!accessToken) {
                 throw new AppError(403, "No Token Received")
@@ -26,7 +28,7 @@ export const checkAuth = (...authRoles: string[]) =>
             if (isUserExits.isBlock === true) {
                 throw new AppError(403, "Your account is blocked");
             }
-            
+
             if (isUserExits.isActive === false) {
                 throw new AppError(403, "Your account is deactivate");
             }
@@ -36,6 +38,8 @@ export const checkAuth = (...authRoles: string[]) =>
             }
 
             req.user = verifiedToken
+            // console.log("verifiedToken", verifiedToken)
+            // console.log("req user", req.user)
             next()
 
         } catch (error) {

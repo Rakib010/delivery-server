@@ -9,7 +9,7 @@ import { IUser } from "./user.interface"
 import { User } from "./user.model"
 import bcrypt from "bcryptjs"
 
-
+// create user
 const createUser = async (payload: Partial<IUser>) => {
     const { email, password, ...rest } = payload;
 
@@ -27,6 +27,19 @@ const createUser = async (payload: Partial<IUser>) => {
     })
 
     return user
+}
+
+// get user 
+const getUser = async (userId: string) => {
+    const user = await User.findById(userId).select("-password")
+    return user
+}
+
+// get only receiver 
+const getReceiver = async () => {
+    const receivers = await User.find({ role: "RECEIVER" }).select("-password")
+
+    return receivers;
 }
 
 // trackingById 
@@ -68,26 +81,6 @@ const getAllUsers = async () => {
     return allParcels
 }
 
-const blockUser = async (id: string, block: boolean) => {
-
-    const user = await User.findByIdAndUpdate(
-        id,
-        { isBlock: block },
-        { new: true }
-    )
-    return user
-}
-
-const unblockUser = async (id: string, block: boolean) => {
-
-    const user = await User.findByIdAndUpdate(
-        id,
-        { isBlock: block },
-        { new: true }
-    )
-    return user
-}
-
 const updateParcelStatus = async (parcelId: string, newStatus: ParcelStatus, location: string, note: string, adminId: Types.ObjectId) => {
 
     const parcel = await Parcel.findById(parcelId)
@@ -96,7 +89,7 @@ const updateParcelStatus = async (parcelId: string, newStatus: ParcelStatus, loc
     }
 
     const currentStatus = parcel.status;
-    console.log("currentStatus",parcel.status) // should show "inTransit"
+    //console.log("currentStatus", parcel.status) 
 
     const nextStatuses = allowedNextStatus[currentStatus];
 
@@ -117,6 +110,22 @@ const updateParcelStatus = async (parcelId: string, newStatus: ParcelStatus, loc
     return parcel;
 }
 
+const toggleUserBlock = async (id: string) => {
+    const user = await User.findById(id);
+    if (!user) {
+        throw new AppError(404, "User not found");
+    }
+
+    user.isBlock = !user.isBlock;
+    await user.save();
+
+    return {
+        message: `User has been ${user.isBlock ? "blocked" : "unblocked"} successfully.`,
+        isBlock: user.isBlock,
+    };
+};
+
+
 const toggleParcelBlock = async (id: string) => {
     const parcel = await Parcel.findById(id);
     if (!parcel) {
@@ -133,13 +142,36 @@ const toggleParcelBlock = async (id: string) => {
 }
 
 
+
+
 export const userServices = {
     createUser,
+    getUser,
+    getReceiver,
     trackingById,
     getAllParcels,
     getAllUsers,
-    blockUser,
-    unblockUser,
     updateParcelStatus,
-    toggleParcelBlock
+    toggleParcelBlock,
+    toggleUserBlock
 }
+
+
+/* const blockUser = async (id: string, block: boolean) => {
+
+    const user = await User.findByIdAndUpdate(
+        id,
+        { isBlock: block },
+        { new: true }
+    )
+    return user
+}
+const unblockUser = async (id: string, block: boolean) => {
+
+    const user = await User.findByIdAndUpdate(
+        id,
+        { isBlock: block },
+        { new: true }
+    )
+    return user
+} */

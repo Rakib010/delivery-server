@@ -13,6 +13,14 @@ route.post('/register',
     validateRequest(createUserZodSchema),
     userController.createUser)
 
+route.get("/me",
+    checkAuth(...Object.values(Role)),
+    userController.getUser)
+
+route.get("/all-receiver",
+    checkAuth(...Object.values(Role)),
+    userController.getReceiver)
+
 route.get('/tracking/:id', userController.trackingById)
 
 // Admin route 
@@ -24,15 +32,11 @@ route.get('/all-users',
     checkAuth(Role.ADMIN),
     userController.getAllUsers)
 
-route.patch('/block/:id',
+route.patch("/block-toggle/:id",
     checkAuth(Role.ADMIN),
-    userController.blockUser);
+    userController.toggleUserBlock);
 
-route.patch('/unblock/:id',
-    checkAuth(Role.ADMIN),
-    userController.unblockUser);
-
-route.patch("/parcel/block-toggle/:id",
+route.patch("/block-toggle/:id",
     checkAuth(Role.ADMIN),
     userController.toggleParcelBlock);
 
@@ -42,6 +46,15 @@ route.patch('/update-parcel-status/:id',
 
 
 
-
-
 export const usersRoutes = route
+
+
+
+/* 
+route.patch('/block/:id',
+    checkAuth(Role.ADMIN),
+    userController.blockUser);
+
+route.patch('/unblock/:id',
+    checkAuth(Role.ADMIN),
+    userController.unblockUser); */
