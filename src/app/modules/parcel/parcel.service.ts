@@ -63,14 +63,15 @@ const getMyParcels = async (senderId: string) => {
 // Receiver Service
 const incomingParcels = async (receiverId: string) => {
 
-    const parcels = await Parcel.find({ receiver: receiverId });
+    const parcels = await Parcel.find({ receiver: receiverId })
+        .populate("sender", "name email phone");
 
     return parcels
 }
 
 const confirmParcelDelivery = async (receiverId: Types.ObjectId, parcelId: string) => {
 
-    const parcel = await Parcel.findOne({ _id: parcelId, receiver: receiverId });
+    const parcel = await Parcel.findOne({ _id: parcelId, receiver: receiverId })
 
     if (!parcel) {
         throw new AppError(404, "Parcel not found");
@@ -103,7 +104,9 @@ const getDeliveryHistory = async (receiverId: string) => {
     const parcels = await Parcel.find({
         receiver: receiverId,
         status: ParcelStatus.DELIVERED
-    });
+    })
+        .populate("sender", "name email phone")
+        .populate("receiver", "name email phone")
     return parcels
 }
 

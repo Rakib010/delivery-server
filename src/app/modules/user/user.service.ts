@@ -49,10 +49,8 @@ const trackingById = async (trackingId: string) => {
     if (!parcel) throw new AppError(404, "Parcel not found with this tracking ID");
 
 
-    return {
-        status: parcel.status,
-        trackingEvents: parcel.trackingEvents,
-    }
+    return parcel
+    //status: parcel.status,trackingEvents: parcel.trackingEvents, 
 }
 
 // Admin services

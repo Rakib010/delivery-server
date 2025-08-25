@@ -23,6 +23,7 @@ route.get("/all-receiver",
 
 route.get('/tracking/:id', userController.trackingById)
 
+
 // Admin route 
 route.get('/all-parcels',
     checkAuth(Role.ADMIN),
@@ -43,7 +44,6 @@ route.patch("/block-toggle/:id",
 route.patch('/update-parcel-status/:id',
     checkAuth(Role.ADMIN),
     userController.updateParcelStatus);
-
 
 
 export const usersRoutes = route
